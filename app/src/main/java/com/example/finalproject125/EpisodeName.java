@@ -11,7 +11,7 @@ public class EpisodeName {
     public EpisodeName(String var1) {
         title = var1;
     }
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 }
