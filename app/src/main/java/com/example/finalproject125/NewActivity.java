@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 public class NewActivity extends MainActivity {
     private LinearLayout llContainer;
-    private EditText etSearch;
-    private ListView lvProducts;
+    private EditText showName;
+    private ListView listView;
 
     private ArrayList<EpisodeName> mProductArrayList = new ArrayList<EpisodeName>();
     private MyAdapter adapter1;
@@ -35,7 +35,7 @@ public class NewActivity extends MainActivity {
 
 
         // Add Text Change Listener to EditText
-        etSearch.addTextChangedListener(new TextWatcher() {
+        showName.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -55,8 +55,8 @@ public class NewActivity extends MainActivity {
 
     private void initialize() {
         // need to add to xml file
-        etSearch = (EditText) findViewById(R.id.etSearch);
-        lvProducts = (ListView)findViewById(R.id.lvOS);
+        showName = (EditText) findViewById(R.id.showName);
+        listView = (ListView)findViewById(R.id.listView);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class NewActivity extends MainActivity {
 
         // this should work when you put it back into MainActivity
         adapter1 = new MyAdapter(NewActivity.this, mProductArrayList);
-        lvProducts.setAdapter(adapter1);
+        listView.setAdapter(adapter1);
     }
 
 
