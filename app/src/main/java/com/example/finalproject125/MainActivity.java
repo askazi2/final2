@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void generateEpisode() {
+        // this makes the button actually show up as visible
         saySome.setVisibility(View.VISIBLE);
     }
 }

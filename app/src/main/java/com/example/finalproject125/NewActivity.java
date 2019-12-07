@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 public class NewActivity extends MainActivity {
@@ -69,7 +68,7 @@ public class NewActivity extends MainActivity {
         // mProductArrayList.add(new Product("a", 100));
 
         // this should work when you put it back into MainActivity
-        adapter1 = new MyAdapter(MainActivity.this, mProductArrayList);
+        adapter1 = new MyAdapter(NewActivity.this, mProductArrayList);
         lvProducts.setAdapter(adapter1);
     }
 
@@ -116,7 +115,7 @@ public class NewActivity extends MainActivity {
 
                 holder = new ViewHolder();
                 // need to add to linear layout a row, container, name, and price
-                // edit to what we actually need
+                // edit to what we actually need so we don't actually need all of these variables
                 convertView = inflater.inflate(R.layout.row, null);
                 holder.llContainer = (LinearLayout)convertView.findViewById(R.id.llContainer);
                 holder.tvName = (TextView) convertView.findViewById(R.id.tvName);
@@ -128,12 +127,13 @@ public class NewActivity extends MainActivity {
             holder.tvName.setText(mDisplayedValues.get(position).name);
             holder.tvPrice.setText(mDisplayedValues.get(position).price+"");
 
-            // I edited this ... don't know if it works
+            // I edited this ... don't know if it works for what we have but test and see if it works accordingly
             holder.llContainer.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
 
-                    Toast.makeText(MainActivity.this, mDisplayedValues.get(position).name, Toast.LENGTH_SHORT).show();
+                    // change back to MainActivity when you copy
+                    Toast.makeText(NewActivity.this, mDisplayedValues.get(position).name, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -161,12 +161,12 @@ public class NewActivity extends MainActivity {
                         mOriginalValues = new ArrayList<EpisodeName>(mDisplayedValues); // saves the original data in mOriginalValues
                     }
 
-                    /********
+                    /**
                      *
                      *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
                      *  else does the Filtering and returns FilteredArrList(Filtered)
                      *
-                     ********/
+                     */
                     if (constraint == null || constraint.length() == 0) {
 
                         // set the Original result to return
@@ -191,5 +191,4 @@ public class NewActivity extends MainActivity {
             return filter;
         }
     }
-
 }
