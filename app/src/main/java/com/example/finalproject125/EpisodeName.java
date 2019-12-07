@@ -7,7 +7,7 @@ public class EpisodeName {
     // there are multiple APIs we need to use and specifically in this one we need to get all of
     // list of shows on Netflix and add them to the array in NewActivity in order for thic class to work
     // Later on we can get the IMBD attached by using the ID given in the JSON object returned by the API
-    private String title;
+    public String title;
     public EpisodeName(String var1) {
         title = var1;
     }

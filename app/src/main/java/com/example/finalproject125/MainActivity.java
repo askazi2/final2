@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    /*
     // this code is for the button that we created
     private Button shuffle;
     private TextView saySome;
@@ -37,4 +40,5 @@ public class MainActivity extends AppCompatActivity {
         // this makes the button actually show up as visible
         saySome.setVisibility(View.VISIBLE);
     }
+     */
 }
