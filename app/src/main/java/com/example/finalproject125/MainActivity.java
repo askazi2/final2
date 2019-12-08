@@ -7,10 +7,11 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONObject;
+import com.android.volley.Request;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
 
 public class MainActivity extends AppCompatActivity {
     // this code is for the button that we created
@@ -29,11 +30,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 title = titleInput.getText().toString();
-                HttpResponse<String> response = Unirest.get("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=Frozen")
-                        .header("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
-                        .header("x-rapidapi-key", "3bda5a528bmsh698ae8b83d27e37p165ee0jsnec6e42c11bc3")
-                        .asString();
-                JSONObject myResponse = new JSONObject(response);
+                String newString = "";
+                for (int i = 0; i < title.length() - 1; i++) {
+                    if (title.substring(i, i + 1).equals(" ")) {
+                        newString += "%20";
+                    } else {
+                        newString += title.substring(i, i + 1);
+                    }
+                }
+
+                System.out.println("try");
+                try {
+                    HttpResponse<String> response = Unirest.get("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=Avengers%20Endgame")
+                            .header("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
+                            .header("x-rapidapi-key", "3bda5a528bmsh698ae8b83d27e37p165ee0jsnec6e42c11bc3")
+                            .asString();
+                    String body = response.getBody();
+                    System.out.println("bbb " + body);
+                } catch (UnirestException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
