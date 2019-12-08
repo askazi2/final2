@@ -1,5 +1,7 @@
 package com.example.finalproject125;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +60,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+        private String resp;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(String... params) {
+
+        }
+
     }
 
 }
