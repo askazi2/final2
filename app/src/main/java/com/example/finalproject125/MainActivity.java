@@ -8,9 +8,13 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.squareup.okhttp.OkHttpClient;
+
+import java.net.HttpURLConnection;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 System.out.println("try");
-                try {
+                /*try {
                     HttpResponse<String> response = Unirest.get("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=Avengers%20Endgame")
                             .header("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
                             .header("x-rapidapi-key", "3bda5a528bmsh698ae8b83d27e37p165ee0jsnec6e42c11bc3")
@@ -49,7 +53,17 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("bbb " + body);
                 } catch (UnirestException e) {
                     e.printStackTrace();
-                }
+                }*/
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=Avengers%20Endgame")
+                        .get()
+                        .addHeader("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
+                        .addHeader("x-rapidapi-key", "3bda5a528bmsh698ae8b83d27e37p165ee0jsnec6e42c11bc3")
+                        .build();
+
+                Response response = client.newCall(request).execute();
 
             }
         });
