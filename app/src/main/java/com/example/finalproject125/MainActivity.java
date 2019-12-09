@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,6 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.*;
 import java.io.IOException;
 
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private Button submit;
     private String title;
     private EditText titleInput;
+    private JSONArray array;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getResult();
+                //getResult();
                 title = titleInput.getText().toString();
                 AsyncTaskRunner runner = new AsyncTaskRunner();
                 runner.execute(title);
@@ -47,20 +53,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public class AsyncTaskRunner extends AsyncTask<String, String, String> {
+    public class AsyncTaskRunner extends AsyncTask<String, String, JSONArray> {
 
         //private Exception exception;
         private ProgressBar progressBar;
-        private TextView responseView;
-
+        //private TextView responseView;
         protected void onPreExecute() {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            responseView = findViewById(R.id.responseView2);
-            responseView.setText("Nothing");
+            //responseView = findViewById(R.id.responseView2);
+            //responseView.setText("Nothing");
         }
-
-        protected String doInBackground(String... params) {
+        protected JSONArray doInBackground(String... params) {
             // Do some validation here
             String newString = "";
             for (int i = 0; i < title.length() - 1; i++) {
@@ -83,40 +87,28 @@ public class MainActivity extends AppCompatActivity {
 
                 Response myResponse = client.newCall(request).execute();
                 System.out.println("try ");
-                return myResponse.body().toString();
+                array = new JSONArray(myResponse.body().string());
+                return array;
             } catch (Exception e) {
                 System.out.println("catch ");
-                return e.toString();
+                return null;
             }
         }
-
-        protected void onPostExecute(String response) {
-            if (response == null) {
-                response = "THERE WAS AN ERROR";
+        protected void onPostExecute(JSONArray a) {
+            if (a == null) {
+                System.out.println("THERE WAS AN ERROR");
             }
             progressBar.setVisibility(View.GONE);
-            Log.i("INFO", response);
-            responseView.setText(response);
-            responseView.setVisibility(View.VISIBLE);
+            //Log.i("INFO", a);
+            //responseView.setText(response);
+            //responseView.setVisibility(View.VISIBLE);
+            getResult();
         }
     }
-
-    /*public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-        if(actionId == EditorInfo.IME_ACTION_SEARCH
-                || actionId == EditorInfo.IME_ACTION_DONE
-                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-
-            //execute our method for searching
-        }
-
-        return false;
-    }
-
-     */
 
     public void getResult() {
         Intent intent = new Intent(this, MovieInfo.class);
         startActivity(intent);
     }
+
 }
