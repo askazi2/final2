@@ -1,11 +1,17 @@
 package com.example.finalproject125;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getResult();
                 title = titleInput.getText().toString();
                 String newString = "";
                 for (int i = 0; i < title.length() - 1; i++) {
@@ -41,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         newString += title.substring(i, i + 1);
                     }
                 }
-
+                /*
                 System.out.println("HERE");
                 OkHttpClient client = new OkHttpClient();
 
@@ -58,20 +65,24 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     System.out.println("catch " + e.toString());
                 }
+                 */
+
             }
         });
     }
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if(actionId == EditorInfo.IME_ACTION_SEARCH
+                || actionId == EditorInfo.IME_ACTION_DONE
+                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
 
-    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
-
-        private String resp;
-        ProgressDialog progressDialog;
-
-        @Override
-        protected String doInBackground(String... params) {
-
+            //execute our method for searching
         }
 
+        return false;
     }
-
+    public void getResult() {
+        Intent intent = new Intent(this, MovieInfo.class);
+        startActivity(intent);
+    }
 }
