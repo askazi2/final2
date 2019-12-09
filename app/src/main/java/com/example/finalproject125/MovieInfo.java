@@ -1,5 +1,6 @@
 package com.example.finalproject125;
 
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +14,16 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+
 public class MovieInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle here) {
         super.onCreate(here);
         setContentView(R.layout.movie_info);
-        class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
 
-            private Exception exception;
+        /*class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+            //private Exception exception;
             private ProgressBar progressBar;
             private TextView responseView;
 
@@ -31,8 +34,16 @@ public class MovieInfo extends AppCompatActivity {
                 responseView.setText("Nothing");
             }
 
-            protected String doInBackground(Void... urls) {
+            protected String doInBackground(String... params) {
                 // Do some validation here
+                String newString = "";
+                for (int i = 0; i < title.length() - 1; i++) {
+                    if (title.substring(i, i + 1).equals(" ")) {
+                        newString += "%20";
+                    } else {
+                        newString += title.substring(i, i + 1);
+                    }
+                }
 
                 OkHttpClient client = new OkHttpClient();
 
@@ -44,9 +55,9 @@ public class MovieInfo extends AppCompatActivity {
                             .addHeader("x-rapidapi-key", "3bda5a528bmsh698ae8b83d27e37p165ee0jsnec6e42c11bc3")
                             .build();
 
-                    Response response = client.newCall(request).execute();
+                    Response myResponse = client.newCall(request).execute();
                     System.out.println("try ");
-                    return response.body().toString();
+                    return myResponse.body().toString();
                 } catch (Exception e) {
                     System.out.println("catch ");
                     return e.toString();
@@ -63,5 +74,7 @@ public class MovieInfo extends AppCompatActivity {
                 responseView.setVisibility(View.VISIBLE);
             }
         }
+
+         */
     }
 }

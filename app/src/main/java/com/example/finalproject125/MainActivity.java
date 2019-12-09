@@ -40,37 +40,68 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getResult();
                 title = titleInput.getText().toString();
-                String newString = "";
-                for (int i = 0; i < title.length() - 1; i++) {
-                    if (title.substring(i, i + 1).equals(" ")) {
-                        newString += "%20";
-                    } else {
-                        newString += title.substring(i, i + 1);
-                    }
-                }
-                /*
-                System.out.println("HERE");
-                OkHttpClient client = new OkHttpClient();
-
-                try {
-                    Request request = new Request.Builder()
-                            .url("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=Avengers%20Endgame")
-                            .get()
-                            .addHeader("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
-                            .addHeader("x-rapidapi-key", "3bda5a528bmsh698ae8b83d27e37p165ee0jsnec6e42c11bc3")
-                            .build();
-
-                    Response response = client.newCall(request).execute();
-                    System.out.println("try " + response.body().string());
-                } catch (Exception e) {
-                    System.out.println("catch " + e.toString());
-                }
-                 */
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                runner.execute(title);
 
             }
         });
     }
-    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+
+    public class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+        //private Exception exception;
+        private ProgressBar progressBar;
+        private TextView responseView;
+
+        protected void onPreExecute() {
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            responseView = findViewById(R.id.responseView2);
+            responseView.setText("Nothing");
+        }
+
+        protected String doInBackground(String... params) {
+            // Do some validation here
+            String newString = "";
+            for (int i = 0; i < title.length() - 1; i++) {
+                if (title.substring(i, i + 1).equals(" ")) {
+                    newString += "%20";
+                } else {
+                    newString += title.substring(i, i + 1);
+                }
+            }
+
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                Request request = new Request.Builder()
+                        .url("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=Avengers%20Endgame")
+                        .get()
+                        .addHeader("x-rapidapi-host", "movie-database-imdb-alternative.p.rapidapi.com")
+                        .addHeader("x-rapidapi-key", "3bda5a528bmsh698ae8b83d27e37p165ee0jsnec6e42c11bc3")
+                        .build();
+
+                Response myResponse = client.newCall(request).execute();
+                System.out.println("try ");
+                return myResponse.body().toString();
+            } catch (Exception e) {
+                System.out.println("catch ");
+                return e.toString();
+            }
+        }
+
+        protected void onPostExecute(String response) {
+            if (response == null) {
+                response = "THERE WAS AN ERROR";
+            }
+            progressBar.setVisibility(View.GONE);
+            Log.i("INFO", response);
+            responseView.setText(response);
+            responseView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /*public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         if(actionId == EditorInfo.IME_ACTION_SEARCH
                 || actionId == EditorInfo.IME_ACTION_DONE
                 || keyEvent.getAction() == KeyEvent.ACTION_DOWN
@@ -81,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
         return false;
     }
+
+     */
+
     public void getResult() {
         Intent intent = new Intent(this, MovieInfo.class);
         startActivity(intent);
