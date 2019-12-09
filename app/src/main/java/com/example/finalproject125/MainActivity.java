@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private Button submit;
     private String title;
     private EditText titleInput;
-    private JSONArray array;
+    //public JSONArray array;
+
+    public MainActivity() {}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +56,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public class AsyncTaskRunner extends AsyncTask<String, String, JSONArray> {
+    public class AsyncTaskRunner extends AsyncTask<String, String, String> {
 
         //private Exception exception;
         private ProgressBar progressBar;
-        //private TextView responseView;
+
         protected void onPreExecute() {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
             //responseView = findViewById(R.id.responseView2);
             //responseView.setText("Nothing");
         }
-        protected JSONArray doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             // Do some validation here
             String newString = "";
             for (int i = 0; i < title.length() - 1; i++) {
@@ -87,27 +90,28 @@ public class MainActivity extends AppCompatActivity {
 
                 Response myResponse = client.newCall(request).execute();
                 System.out.println("try ");
-                array = new JSONArray(myResponse.body().string());
-                return array;
+                // array = new JSONArray(myResponse.body().string());
+                return myResponse.body().string();
             } catch (Exception e) {
                 System.out.println("catch ");
-                return null;
+                return e.toString();
             }
         }
-        protected void onPostExecute(JSONArray a) {
-            if (a == null) {
+        protected void onPostExecute(String response) {
+            if (response == null) {
                 System.out.println("THERE WAS AN ERROR");
             }
             progressBar.setVisibility(View.GONE);
             //Log.i("INFO", a);
             //responseView.setText(response);
             //responseView.setVisibility(View.VISIBLE);
-            getResult();
+            getResult(response);
         }
     }
 
-    public void getResult() {
+    public void getResult(String response) {
         Intent intent = new Intent(this, MovieInfo.class);
+        intent.putExtra("response", response);
         startActivity(intent);
     }
 
