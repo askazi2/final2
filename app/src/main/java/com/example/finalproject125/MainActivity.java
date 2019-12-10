@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Button submit;
     private String title;
     private EditText titleInput;
-
+    // new comment
     public MainActivity() {}
 
     @Override
