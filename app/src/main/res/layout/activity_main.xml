@@ -28,7 +28,7 @@
             android:id="@+id/movieName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter Movie Title"
+            android:text="Enter Media Title"
             android:textSize="30sp" />
 
         <EditText
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:ems="10"
-            android:hint="Movie Title"
+            android:hint="Movie/Series Title"
             android:inputType="textPersonName"
             android:textSize="24sp" />
 
