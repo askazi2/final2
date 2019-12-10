@@ -30,15 +30,21 @@ public class MovieInfo extends AppCompatActivity {
         setContentView(R.layout.movie_info);
         response = getIntent().getStringExtra("response");
         responseView = findViewById(R.id.responseView2);
+        String splitResponse = "";
+        for (int i = 0; i < response.length(); i++) {
+            if (response.charAt(i) == '}') {
+                break;
+            }
+            splitResponse += response.substring(i, i + 1);
+        }
+        splitResponse += "}";
         newMovie = findViewById(R.id.newmovie);
         responseView.setText("");
-        responseView.setText(response);
+        responseView.setText(splitResponse);
         responseView.setVisibility(View.VISIBLE);
         newMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(this, MainActivity.class);
-                //startActivity(i);
                 finish();
             }
         });
